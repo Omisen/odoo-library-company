@@ -1,33 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- List View  -->
+    
+    <!-- List View -->
     <record id="view_library_loan_list" model="ir.ui.view">
         <field name="name">library.loan.list</field>
         <field name="model">library.loan</field>
         <field name="arch" type="xml">
-            <list string="Loan">
-
+            <list string="Loans" default_order="due_date asc" decoration-muted="state == 'returned'" decoration-danger="is_overdue">
+                <field name="borrower_id"/>
+                <field name="book_id"/>
+                <field name="loan_date"/>
+                <field name="due_date"/>
+                <field name="return_date" optional="hide"/>
+                <field name="state" widget="badge"
+                decoration-info="state == 'active'"
+                decoration-success="state == 'returned'"
+                decoration-danger="is_overdue"/>
             </list>
         </field>
     </record>
-
+    
     <!-- Form View -->
     <record id="view_library_loan_form" model="ir.ui.view">
         <field name="name">library.loan.form</field>
         <field name="model">library.loan</field>
         <field name="arch" type="xml">
             <form string="Loan">
-                <sheat>
-                    
-                </sheat>
+                <header>
+                    <button name="action_return"
+                            type="object"
+                            string="Return Book"
+                            class="btn-primary"
+                            invisible="state == 'returned'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="active,overdue,returned"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Loan Details">
+                            <field name="book_id" readonly="state == 'returned'"/>
+                            <field name="borrower_id" readonly="state == 'returned'"/>
+                        </group>
+                        <group string="Dates">
+                            <field name="loan_date" readonly="1"/>
+                            <field name="due_date" readonly="state == 'returned'"/>
+                            <field name="return_date" readonly="1" invisible="state != 'returned'"/>
+                            <field name="is_overdue" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <div class="alert alert-warning" role="alert" invisible="not is_overdue or state == 'returned'">
+                        This loan is overdue. Please return the book as soon as possible.
+                    </div>
+                </sheet>
             </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_library_loan_search" model="ir.ui.view">
+        <field name="name">library.loan.search</field>
+        <field name="model">library.loan</field>
+        <field name="arch" type="xml">
+            <search string="Search Loans">
+                <field name="borrower_id"/>
+                <field name="book_id"/>
+                <filter name="filter_active" string="Active" domain="[('state', '=', 'active')]"/>
+                <filter name="filter_returned" string="Returned" domain="[('state', '=', 'returned')]"/>
+                <filter name="filter_overdue" string="Overdue" domain="[('due_date', '&lt;', context_today()), ('state', '!=', 'returned')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_borrower" string="Borrower" domain="[]" context="{'group_by': 'borrower_id'}"/>
+                    <filter name="group_by_book" string="Book" domain="[]" context="{'group_by': 'book_id'}"/>
+                    <filter name="group_by_state" string="State" domain="[]" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
     <!-- Action View -->
     <record id="view_library_loan_action" model="ir.actions.act_window">
-        <field name="name">Loan</field>
+        <field name="name">Loans</field>
         <field name="res_model">library.loan</field>
         <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first loan</p>
+            <p>Track borrowed books, due dates, and returns from here.</p>
+        </field>
     </record>
 </odoo>

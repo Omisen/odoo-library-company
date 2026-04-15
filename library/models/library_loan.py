@@ -18,6 +18,7 @@ class LibraryLoan(models.Model):
     loan_date = fields.Date(
         string="Loan Date",
         default=fields.Date.context_today,
+        readonly=True,
         copy=False
     )
     # ritorno
@@ -29,8 +30,8 @@ class LibraryLoan(models.Model):
     state = fields.Selection(
         selection=[
             ('active','Active'),
+            ('overdue', 'Overdue'),
             ('returned', 'Returned'),
-            ('overdue', 'Overdue')
         ]
     )
     is_overdue = fields.Boolean(compute="_computed_check_overdue")
