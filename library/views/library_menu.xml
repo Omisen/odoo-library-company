@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Root -->
+    <menuitem id="menu_library_root" name="Library" sequence="2">
+
+        <!-- Advertisements -->
+        <menuitem id="menu_bookshelf" name="Bookshelf">
+            <menuitem id="menu_library_book_list" action="view_library_book_action"/>
+        </menuitem>
+
+        <!-- Settings -->
+        <menuitem id="menu_settings" name="Settings">
+
+            <menuitem id="menu_settings_library" name="Library">
+                <menuitem id="menu_library_loan_list" sequence="1"/>
+            </menuitem>
+
+            <menuitem id="menu_settings_odoo" name="General">
+                <menuitem name="Odoo Settings" id="menu_odoo_config_settings" action="base.res_config_setting_act_window" sequence="10"/>
+            </menuitem>
+
+        </menuitem>
+
+    </menuitem>
+</odoo>
