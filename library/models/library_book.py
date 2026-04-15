@@ -18,7 +18,7 @@ class LibraryBook(models.Model):
         compute="_computed_set_state",
         default="unavailable"
     )
-    loan_count = fields.Integer()
+    loan_count = fields.Integer() # Smart button
     
     @api.depends('available_copies')
     def _computed_set_state(self):

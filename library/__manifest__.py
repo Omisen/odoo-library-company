@@ -20,8 +20,9 @@
     'data': [
         'security/ir.model.access.csv',
         'data/library_category.xml',
-        'views/library_book_view.xml',
         'views/library_category_view.xml',
+        'views/library_loan_view.xml',
+        'views/library_book_view.xml',
         'views/library_menu_views.xml',
     ],
 
