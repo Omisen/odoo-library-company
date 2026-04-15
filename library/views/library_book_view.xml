@@ -6,11 +6,14 @@
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <list string="Books">
+                <field name="name"/>
                 <field name="state" widget="badge"
                        decoration-info="state == 'partial_available'"
                        decoration-success="state == 'available'"
                        decoration-danger="state == 'unavailable'"/>
-                <field name="name"/>
+                <field name="available_copies" string="Copies"/>
+                <field name="category_id"/>
+                <field name="isbn"/>
             </list>
         </field>
     </record>
@@ -20,7 +23,29 @@
         <field name="name">library.book.form</field>
         <field name="model">library.book</field>
         <field name="arch" type="xml">
-
+            <form string="Books">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div>
+                        <h1 class="oe_title">
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <field name="authors_ids" widget="many2many_tags"/>
+                        </group>
+                    </div>
+                    <br/>
+                    <group>
+                        <field name="category_id"/>
+                    </group>
+                    <group>
+                        <field name="isbn"/>
+                        <field name="available_copies"/>
+                    </group>     
+                </sheet>
+            </form>
         </field>
     </record>
 

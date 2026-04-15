@@ -1,0 +1,43 @@
+<odoo>
+    <data noupdate="1">
+        <record id="library_category_psychology" model="library.category">
+            <field name="name">Psychology</field>
+            <field name="description">Books about human behavior, mind, emotions, and personal growth.</field>
+        </record>
+
+        <record id="library_category_software" model="library.category">
+            <field name="name">Software</field>
+            <field name="description">Books about software development, programming, and IT systems.</field>
+        </record>
+
+        <record id="library_category_history" model="library.category">
+            <field name="name">History</field>
+            <field name="description">Books covering historical events, civilizations, and biographies.</field>
+        </record>
+
+        <record id="library_category_science" model="library.category">
+            <field name="name">Science</field>
+            <field name="description">Books about physics, chemistry, biology, and scientific discoveries.</field>
+        </record>
+
+        <record id="library_category_fantasy" model="library.category">
+            <field name="name">Fantasy</field>
+            <field name="description">Novels and stories set in imaginative worlds with magical elements.</field>
+        </record>
+
+        <record id="library_category_business" model="library.category">
+            <field name="name">Business</field>
+            <field name="description">Books on management, entrepreneurship, marketing, and finance.</field>
+        </record>
+
+        <record id="library_category_self_help" model="library.category">
+            <field name="name">Self Help</field>
+            <field name="description">Books focused on habits, productivity, motivation, and well-being.</field>
+        </record>
+
+        <record id="library_category_philosophy" model="library.category">
+            <field name="name">Philosophy</field>
+            <field name="description">Books exploring ethics, logic, metaphysics, and critical thought.</field>
+        </record>
+    </data>
+</odoo>

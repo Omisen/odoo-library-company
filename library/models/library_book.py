@@ -15,14 +15,15 @@ class LibraryBook(models.Model):
             ("partial_available", "Partial Available"),
             ("unavailable", "Unavailable"),
         ],
-        compute="_computed_set_state"
+        compute="_computed_set_state",
+        default="unavailable"
     )
     loan_count = fields.Integer()
     
     @api.depends('available_copies')
     def _computed_set_state(self):
         for record in self:
-            if record.available_copies > 6:
+            if record.available_copies >= 6:
                 record.state = 'available'
             elif record.available_copies > 0:
                 record.state = 'partial_available'
