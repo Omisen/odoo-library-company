@@ -29,6 +29,15 @@
                     <field name="state" widget="statusbar" statusbar_visible="available,partial_available,unavailable"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_loans"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-exchange">
+                            <field name="loan_count" widget="statinfo" string="Loans"/>
+                        </button>
+                    </div>
+
                     <div class="oe_title">
                         <label for="name"/>
                         <h1>
@@ -45,14 +54,126 @@
                         <group string="Availability">
                             <field name="available_copies"/>
                             <field name="state" readonly="1"/>
-                            <field name="loan_count" readonly="1"/>
                         </group>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
-    
+
+    <!-- Kanban View -->
+    <record id="view_library_book_kanban" model="ir.ui.view">
+        <field name="name">library.book.kanban</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" default_group_by="state" records_draggable="False" groups_draggable="false">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="available_copies"/>
+                <field name="category_id"/>
+                <templates>
+                    <t t-name="card">
+                        <!--
+                        <t t-if="record.state.raw_value == 'available'">
+                            <div class="o_kanban_record oe_kanban_card border border-success bg-success-subtle">
+                                <div class="o_kanban_card_header">
+                                    <strong class="fs-5">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_card_body mt-2">
+                                    <div>
+                                        <strong>State:</strong>
+                                        <field name="state" widget="badge"/>
+                                    </div>
+                                    <div>
+                                        <strong>Copies:</strong>
+                                        <field name="available_copies"/>
+                                    </div>
+                                    <div>
+                                        <strong>Category:</strong>
+                                        <field name="category_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-elif="record.state.raw_value == 'unavailable'">
+                            <div class="o_kanban_record oe_kanban_card border border-danger bg-danger-subtle">
+                                <div class="o_kanban_card_header">
+                                    <strong class="fs-5">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_card_body mt-2">
+                                    <div>
+                                        <strong>State:</strong>
+                                        <field name="state" widget="badge"/>
+                                    </div>
+                                    <div>
+                                        <strong>Copies:</strong>
+                                        <field name="available_copies"/>
+                                    </div>
+                                    <div>
+                                        <strong>Category:</strong>
+                                        <field name="category_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="o_kanban_record oe_kanban_card border border-warning bg-warning-subtle">
+                                <div class="o_kanban_card_header">
+                                    <strong class="fs-5">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_card_body mt-2">
+                                    <div>
+                                        <strong>State:</strong>
+                                        <field name="state" widget="badge"/>
+                                    </div>
+                                    <div>
+                                        <strong>Copies:</strong>
+                                        <field name="available_copies"/>
+                                    </div>
+                                    <div>
+                                        <strong>Category:</strong>
+                                        <field name="category_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        -->
+                        <div t-attf-class="o_kanban_record oe_kanban_card 
+                        #{  record.state.raw_value == 'available' and 'border border-success bg-success-subtle' 
+                            or record.state.raw_value == 'unavailable' and 'border border-danger bg-danger-subtle' 
+                            or 'border border-warning bg-warning-subtle'}">
+                            <div class="o_kanban_card_header">
+                                <strong class="fs-5">
+                                    <field name="name"/>
+                                </strong>
+                            </div>
+                            <div class="o_kanban_card_body mt-2">
+                                <div>
+                                    <strong>State:</strong>
+                                    <field name="state" widget="badge"/>
+                                </div>
+                                <div>
+                                    <strong>Copies:</strong>
+                                    <field name="available_copies"/>
+                                </div>
+                                <div>
+                                    <strong>Category:</strong>
+                                    <field name="category_id"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
     <!-- Search View -->
     <record id="view_library_book_search" model="ir.ui.view">
         <field name="name">library.book.search</field>
@@ -67,7 +188,7 @@
                 <filter name="filter_unavailable" string="Unavailable" domain="[('state', '=', 'unavailable')]"/>
                 <group expand="0" string="Group By">
                     <filter name="group_by_category" string="Category" domain="[]" context="{'group_by': 'category_id'}"/>
-                    <filter name="group_by_state" string="State" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter name="group_by_book_state" string="Book Status" domain="[]" context="{'group_by': 'state'}"/>
                 </group>
             </search>
         </field>
@@ -77,8 +198,9 @@
     <record id="view_library_book_action" model="ir.actions.act_window">
         <field name="name">Books</field>
         <field name="res_model">library.book</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="search_view_id" ref="view_library_book_search"/>
+        <field name="context">{'search_default_group_by_book_state': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Add your first book</p>
             <p>Manage titles, categories, and current availability from this menu.</p>

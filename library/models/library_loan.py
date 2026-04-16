@@ -55,7 +55,6 @@ class LibraryLoan(models.Model):
             if loan.book_id.available_copies <= 0:
                 raise ValidationError("This book has no available copies.")
             loan.book_id.available_copies -= 1
-            loan.book_id.loan_count += 1
             loan.state = 'active'
         return loans
 
@@ -70,5 +69,4 @@ class LibraryLoan(models.Model):
 
             record.return_date = today
             record.book_id.available_copies += 1
-            record.book_id.loan_count -= 1
             record.state = 'returned'
