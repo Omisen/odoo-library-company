@@ -21,7 +21,7 @@ class LibraryBook(models.Model):
         default="unavailable"
     )
     loan_ids = fields.One2many("library.loan", "book_id", string="Loans")
-    loan_count = fields.Integer(string="Loans", compute="_compute_loan_count")
+    loan_count = fields.Integer(string="Loans Count", compute="_compute_loan_count")
 
     @api.depends("available_copies")
     def _computed_set_state(self):
