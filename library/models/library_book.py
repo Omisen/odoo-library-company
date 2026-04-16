@@ -16,9 +16,10 @@ class LibraryBook(models.Model):
             ("unavailable", "Unavailable"),
         ],
         compute="_computed_set_state",
+        store=True,
         default="unavailable"
     )
-    loan_count = fields.Integer() # Smart button
+    loan_count = fields.Integer(default=0)
     
     @api.depends('available_copies')
     def _computed_set_state(self):
@@ -29,3 +30,4 @@ class LibraryBook(models.Model):
                 record.state = 'partial_available'
             else:
                 record.state = 'unavailable'
+    
