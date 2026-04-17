@@ -58,6 +58,9 @@ class LibraryBook(models.Model):
         return action
     
     
+    def action_view_reservation(self):
+        return self.action_view_reservations()
+
     def action_view_reservations(self):
         self.ensure_one()
         return {

@@ -36,9 +36,6 @@
                                 icon="fa-exchange">
                             <field name="loan_count" widget="statinfo" string="Loans"/>
                         </button>
-                    </div>
-
-                    <div class="oe_button_box" name="button_box">
                         <button name="action_view_reservations"
                                 type="object"
                                 class="oe_stat_button"
