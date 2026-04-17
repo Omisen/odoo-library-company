@@ -21,7 +21,9 @@ class LibraryBook(models.Model):
         default="unavailable"
     )
     loan_ids = fields.One2many("library.loan", "book_id", string="Loans")
+    reservation_ids = fields.One2many("library.reservation", "book_id", string="Reservation")
     loan_count = fields.Integer(string="Loans Count", compute="_compute_loan_count")
+    reservation_count = fields.Integer(string="Reservation Count", compute="_compute_reservation_count")
 
     @api.depends("available_copies")
     def _computed_set_state(self):
@@ -37,6 +39,11 @@ class LibraryBook(models.Model):
     def _compute_loan_count(self):
         for record in self:
             record.loan_count = len(record.loan_ids)
+            
+    @api.depends("reservation_ids")
+    def _compute_reservation_count(self):
+        for record in self:
+            record.reservation_count = len(record.reservation_ids)
 
     # quando su click odoo apre tutti i prestiti di libro e funzione prende solo un libro, cerca azione dei prestiti e
     # poi mette filtro sul libro giusto
@@ -47,4 +54,10 @@ class LibraryBook(models.Model):
         action["domain"] = [("book_id", "=", self.id)]
         action["context"] = dict(self.env.context, default_book_id=self.id)
         return action
+    
+    def action_view_reservation(self):
+        self.ensure_one()
+        action = self.env.ref("library.view_library_reservetion_action").read()[0]
+        action["domain"] = [("book_id", "=", self.id)]
+        action["context"] = dict(self.env.context, default_book_id=self.id)
     

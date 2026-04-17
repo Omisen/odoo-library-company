@@ -38,6 +38,15 @@
                         </button>
                     </div>
 
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_reservation"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-calendar-check-o">
+
+                        </button>
+                    </div>
+
                     <div class="oe_title">
                         <label for="name"/>
                         <h1>

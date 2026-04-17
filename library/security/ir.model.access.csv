@@ -2,4 +2,4 @@ id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_library_book,access_library_book,model_library_book,base.group_user,1,1,1,1
 access_library_loan,access_library_loan,model_library_loan,base.group_user,1,1,1,1
 access_library_category,access_library_category,model_library_category,base.group_user,1,1,1,1
-access_library_reservation,access_library_reservation,model_library_category,base.group_user,1,1,1,1
+access_library_reservation,access_library_reservation,model_library_reservation,base.group_user,1,1,1,1

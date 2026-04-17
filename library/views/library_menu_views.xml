@@ -13,7 +13,8 @@
 
             <menuitem id="menu_settings_library" name="Library">
                 <menuitem id="menu_library_loan_list" action="view_library_loan_action" sequence="1"/>
-                <menuitem id="menu_library_category_list" action="view_library_category_action" sequence="2"/>
+                <menuitem id="menu_library_reservation_list" action="view_library_reservetion_action" sequence="2"/>
+                <menuitem id="menu_library_category_list" action="view_library_category_action" sequence="3"/>
             </menuitem>
 
             <menuitem id="menu_settings_odoo" name="General">
