@@ -14,10 +14,25 @@
         </field>
     </record>
 
+    <record id="view_library_reservation_form" model="ir.ui.view">
+        <field name="name">library.reservation.form</field>
+        <field name="model">library.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Reservations">
+                <sheet>
+                    <field name="book_id"/>
+                    <field name="borrower_id"/>
+                    <field name="reservation_date"/>
+                    <field name="state"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <!-- Action View -->
     <record id="view_library_reservetion_action" model="ir.actions.act_window">
         <field name="name">Reservation</field>
         <field name="res_model">library.reservation</field>
-        <field name="view_mode">list</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>

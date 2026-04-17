@@ -46,7 +46,9 @@ class LibraryLoan(models.Model):
     def _check_copies_greater_than_zero(self):
         for record in self:
             if record.book_id and record.book_id.available_copies <= 0:
-                raise ValidationError("This book has no available copies.")
+                raise ValidationError(f"This book has no available copies {record.book_id.name},"
+                                      "reader can make an reservation.")
+            
             
     @api.model_create_multi
     def create(self, vals_list):
@@ -57,16 +59,21 @@ class LibraryLoan(models.Model):
             loan.book_id.available_copies -= 1
             loan.state = 'active'
         return loans
-
+        
     def action_return(self):
-        today = fields.Date.context_today(self)
-        for record in self:
-            if record.state == 'returned':
-                continue
-            # anche se required fa il check caso in cui book_id sia stato caricato mediante data e non form
-            if not record.book_id:
-                raise UserError("No book is linked to this loan.")
+        self.ensure_one()
+        self.write({
+            'return_date': fields.Date.today(),
+            'state': 'returned',
+        })
+        self.book_id.available_copies += 1
 
-            record.return_date = today
-            record.book_id.available_copies += 1
-            record.state = 'returned'
+        # cerca prima prenotazione in attesa (ordine per data)
+        first_reservation = self.env['library.reservation'].search([
+            ('book_id', '=', self.book_id.id),
+            ('state', '=', 'waiting'),
+        ], limit=1, order='reservation_date asc')
+
+        if first_reservation:
+            first_reservation.state = 'notified'
+            first_reservation._send_notification_email()
