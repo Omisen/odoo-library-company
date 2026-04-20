@@ -2,15 +2,14 @@
 <odoo>
   <data>
     <record id="email_template_reservation_notify" model="mail.template">
-      <field name="name">Libro disponibile — notifica prenotazione</field>
+      <field name="name">Book available — notified reservation</field>
       <field name="model_id" ref="model_library_reservation"/>
-      <field name="subject">Il libro "{{ object.book_id.name }}" è disponibile</field>
+      <field name="subject">The Book "{{ object.book_id.name }}" is now available</field>
       <field name="email_to">{{ object.borrower_id.email }}</field>
       <field name="body_html"><![CDATA[
-        <p>Ciao {{ object.borrower_id.name }},</p>
-        <p>Il libro <strong>{{ object.book_id.name }}</strong>
-        che avevi prenotato è ora disponibile.</p>
-        <p>Hai 3 giorni per ritirarlo, dopodiché la prenotazione scadrà.</p>
+        <p>Hello {{ object.borrower_id.name }},</p>
+        <p>The book <strong>{{ object.book_id.name }}</strong> that you reserved is now available.</p>
+        <p>You have 3 days to pick it up, after which the reservation will expire.</p>
       ]]></field>
     </record>
   </data>

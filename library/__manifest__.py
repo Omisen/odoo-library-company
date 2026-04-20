@@ -21,6 +21,7 @@
         'security/ir.model.access.csv',
         'data/library_category.xml',
         'data/mail_template_data.xml',
+        'data/cron_data.xml',
         'views/library_reservation.xml',
         'views/library_category_view.xml',
         'views/library_loan_view.xml',
